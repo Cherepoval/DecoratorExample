@@ -8,33 +8,29 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 
-
 public class EncryptionDecoratorTest {
 
-    DataSourceDecorator encoder = new EncryptionDecorator(new FileDataSource("out/test.txt"));
-    DataSource fileSource = new FileDataSource("out/test.txt");
-
     @Test
-    @DisplayName("Output: The text should be encrypted.")
+    @DisplayName("The source file was encrypted.")
+    public void writeWithEncryption() {
+        DataSourceDecorator encoder = new EncryptionDecorator(new FileDataSource("out/test.txt"));
+        DataSource fileSource = new FileDataSource("out/test.txt");
 
-    public void writeWithEncryption(){
-        try {
-            encoder.writeData("Some text to testing.");
-            System.out.println(fileSource.readData());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        encoder.writeData("Some text to testing.");
+        assert (fileSource.readData().equals("VHBuZiF1Znl1IXVwIXVmdHVqb2gv"));
+
     }
 
     @Test
-    @DisplayName("Output: The text should be decrypted.")
+    @DisplayName("The decrypted text is equals of the source.")
 
-    public void readWithDecryption(){
-        try {
-           System.out.println(encoder.readData());
-        } catch (Exception e){
-            e.printStackTrace();
-        }
+    public void readWithDecryption() {
+        DataSourceDecorator encoder = new EncryptionDecorator(new FileDataSource("out/test.txt"));
+        DataSource fileSource = new FileDataSource("out/test.txt");
+
+        encoder.writeData("Some text to testing.");
+        assert (encoder.readData().equals("Some text to testing."));
+
     }
 
 }

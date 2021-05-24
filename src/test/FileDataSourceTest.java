@@ -6,22 +6,14 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 public class FileDataSourceTest {
-    DataSource fileDataSource = new FileDataSource("out/test.txt");
+
 
     @Test
-    @DisplayName("Source: Some text to testing.")
-    public void writeTest(){
-        try{
-            fileDataSource.writeData("Some text to testing.");
-        } catch (Exception e){
-            e.printStackTrace();
-        }
+    @DisplayName("The source text was wrote to the file without changing.")
+    public void writeAndReadTest() {
+        DataSource fileDataSource = new FileDataSource("out/test.txt");
 
-    }
-
-    @Test
-    @DisplayName("The output text should be the same")
-    public void readTest(){
-        System.out.println(fileDataSource.readData());
+        fileDataSource.writeData("Some text to testing.");
+        assert (fileDataSource.readData().equals("Some text to testing."));
     }
 }
